@@ -8,13 +8,58 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" />
 </head>
 <body class="bg-[#0f1630] text-white min-h-screen">
-  <header class="w-full px-6 lg:px-12 py-4 flex items-center gap-3">
-    <img src="pixels/329981.webp" alt="logo CinéTrack" class="w-12 h-12 object-contain" />
-    <span class="font-black text-3xl italic">Ciné<span class="text-red-600">Track</span></span>
+  <!-- En-tête de la page -->
+  <header class="sticky top-0 z-30 bg-[#0b1126]/90 backdrop-blur border-b border-white/10">
+    <div class="w-full px-6 lg:px-12 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="pixels/329981.webp" alt="logo CinéTrack" class="w-12 h-12 object-contain" />
+        <span class="font-black text-3xl italic">Ciné<span class="text-red-600">Track</span></span>
+      </a>
+      <a href="#favorites-panel" class="flex items-center gap-2 bg-red-600 hover:bg-red-700 transition px-5 py-2 rounded-full font-bold italic">
+        Favoris <i class="fa-solid fa-heart"></i>
+      </a>
+    </div>
   </header>
 
-  <main class="w-full px-6 lg:px-12 py-10">
-    <p class="text-white/60 italic">Catalogue en construction...</p>
-  </main>
+  <section class="w-full px-6 lg:px-12 pt-14 pb-8">
+    <p class="text-orange-400 italic text-lg tracking-widest uppercase">Films &amp; séries</p>
+    <h1 class="mt-3 text-4xl md:text-6xl font-black italic leading-tight">
+      Trouvez votre prochaine <span class="text-orange-400">obsession...</span>
+    </h1>
+    <p class="mt-4 text-white/60 max-w-xl">
+      Parcourez le catalogue, ouvrez une fiche pour voir tous les détails et gardez vos coups de cœur dans vos favoris.
+    </p>
+  </section>
+
+  <section class="w-full px-6 lg:px-12">
+    <div class="flex flex-col sm:flex-row gap-3">
+      <div class="relative flex-1">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+        <input id="search-input" type="text" placeholder="Rechercher un film ou une série..." class="w-full bg-white/10 border border-white/20 focus:border-orange-400 focus:bg-white/15 rounded-full py-3 pl-12 pr-4 outline-none transition placeholder-white/50" />
+      </div>
+      <button id="search-btn" type="button" class="bg-orange-500 hover:bg-orange-400 transition text-white font-bold px-8 py-3 rounded-full">Chercher</button>
+    </div>
+
+    <div id="type-filters" class="flex flex-wrap gap-3 mt-5">
+      <button data-type="all" class="type-btn px-5 py-2 rounded-full text-white font-bold transition bg-orange-500">Tous</button>
+      <button data-type="movie" class="type-btn px-5 py-2 rounded-full text-white font-bold transition bg-zinc-600">Films</button>
+      <button data-type="series" class="type-btn px-5 py-2 rounded-full text-white font-bold transition bg-zinc-600">Séries</button>
+    </div>
+  </section>
+
+  <div class="w-full px-6 lg:px-12 py-8 flex flex-col lg:flex-row gap-8">
+    <main class="flex-1 min-w-0">
+      <div id="grid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6"></div>
+      <div id="pagination" class="flex flex-wrap justify-center gap-2 mt-8"></div>
+    </main>
+
+    <aside id="favorites-panel" class="lg:w-72 shrink-0 lg:sticky lg:top-24 self-start bg-white text-gray-700 rounded-2xl shadow-xl p-4 max-h-[calc(100vh-8rem)] overflow-y-auto">
+      <h2 class="flex items-center justify-between text-xl font-bold italic px-2">
+        Favoris <i class="fa-solid fa-heart text-red-600"></i>
+      </h2>
+      <p id="favorites-count" class="px-2 pb-2 text-sm text-gray-500 italic"></p>
+      <nav id="favorites-list" class="flex flex-col gap-1"></nav>
+    </aside>
+  </div>
 </body>
 </html>
