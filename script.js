@@ -1,4 +1,5 @@
 import { fetchItems } from "./api.js";
+import { createCard, renderList, showError } from "./cards.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
@@ -8,10 +9,10 @@ async function init() {
 
   try {
     allItems = await fetchItems();
-    grid.innerHTML = `<p class="col-span-full text-center text-white/60 italic">${allItems.length} titres chargés.</p>`;
+    renderList(allItems, createCard, grid);
   } catch (error) {
     console.error(error);
-    grid.innerHTML = `<p class="col-span-full text-center text-red-500 font-bold text-xl">Impossible de charger les données. Réessayez plus tard.</p>`;
+    showError(grid, "Impossible de charger les données. Réessayez plus tard.");
   }
 }
 
