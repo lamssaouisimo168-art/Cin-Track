@@ -1,5 +1,5 @@
 import { fetchItems } from "./api.js";
-import { createCard, renderList, showError, openModal } from "./cards.js";
+import { createCard, renderList, showError, openModal, closeModal } from "./cards.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
@@ -25,4 +25,10 @@ function handleGridClick(event) {
 }
 
 grid.addEventListener("click", handleGridClick);
+
+function handleEscape(event) {
+  if (event.key === "Escape") closeModal();
+}
+
+document.addEventListener("keydown", handleEscape);
 init();

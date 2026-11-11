@@ -70,4 +70,7 @@ export function openModal(item) {
   document.body.appendChild(overlay);
 
   overlay.querySelector("#modal-close").addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
 }
