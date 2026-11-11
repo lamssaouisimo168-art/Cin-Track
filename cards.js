@@ -13,6 +13,13 @@ export function showError(container, message) {
   `;
 }
 
+function getDetailsLine(item) {
+  if (item.type === "movie") {
+    return `Durée : ${item.duration} min`;
+  }
+  return `Saisons : ${item.seasons.length}`;
+}
+
 export function createCard(item) {
   const typeColor = item.type === "movie" ? "bg-orange-500" : "bg-sky-500";
 
@@ -27,4 +34,40 @@ export function createCard(item) {
       </div>
     </article>
   `;
+}
+
+function createModalContent(item) {
+  return `
+    <div class="relative bg-white text-gray-900 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto flex flex-col md:flex-row">
+      <button id="modal-close" class="absolute top-3 right-3 bg-red-600 text-white rounded-full w-9 h-9 hover:bg-red-800">
+        <i class="fa-solid fa-x"></i>
+      </button>
+      <img src="${item.image}" alt="${item.title}" class="w-full md:w-1/2 object-cover rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none" />
+      <div class="p-6 flex flex-col gap-2">
+        <h2 class="text-3xl font-black italic">${item.title}</h2>
+        <p class="text-orange-500 font-semibold">${getTypeLabel(item.type)} • ${item.releaseYear}</p>
+        <p><span class="font-bold">${getDetailsLine(item)}</span></p>
+        <p><span class="font-bold">Genres :</span> ${item.genres.join(", ")}</p>
+        <p><span class="font-bold">Réalisateurs :</span> ${item.directors.join(", ")}</p>
+        <p><span class="font-bold">Pays :</span> ${item.productionCountries.join(", ")}</p>
+        <p class="text-gray-600 mt-2">${item.description}</p>
+      </div>
+    </div>
+  `;
+}
+
+export function closeModal() {
+  const overlay = document.getElementById("modal-overlay");
+  if (overlay) overlay.remove();
+}
+
+export function openModal(item) {
+  closeModal();
+  const overlay = document.createElement("div");
+  overlay.id = "modal-overlay";
+  overlay.className = "fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4";
+  overlay.innerHTML = createModalContent(item);
+  document.body.appendChild(overlay);
+
+  overlay.querySelector("#modal-close").addEventListener("click", closeModal);
 }
