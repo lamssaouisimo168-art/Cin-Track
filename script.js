@@ -1,5 +1,5 @@
 import { fetchItems } from "./api.js";
-import { createCard, renderList, showError } from "./cards.js";
+import { createCard, renderList, showError, openModal, closeModal } from "./cards.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
@@ -16,4 +16,19 @@ async function init() {
   }
 }
 
+function handleGridClick(event) {
+  const card = event.target.closest("article");
+  if (!card) return;
+
+  const item = allItems.find((i) => String(i.id) === String(card.dataset.id));
+  if (item) openModal(item);
+}
+
+grid.addEventListener("click", handleGridClick);
+
+function handleEscape(event) {
+  if (event.key === "Escape") closeModal();
+}
+
+document.addEventListener("keydown", handleEscape);
 init();
