@@ -1,31 +1,43 @@
 import { fetchItems } from "./api.js";
 import { createCard, renderList, showError, openModal, closeModal } from "./cards.js";
 import { searchItems, filterByType } from "./filter.js";
+import { paginate, getTotalPages, renderPagination } from "./pagination.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
 let currentQuery = "";
 let currentType = "all";
+let currentPage = 1;
 
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-btn");
 const filterButtons = document.querySelectorAll(".type-btn");
+const paginationBox = document.getElementById("pagination");
 
 function update() {
   if (allItems.length === 0) return;
 
   const searched = searchItems(allItems, currentQuery);
   const filtered = filterByType(searched, currentType);
+  const totalPages = getTotalPages(filtered.length);
 
   if (filtered.length === 0) {
     showError(grid, "Aucun résultat trouvé.");
   } else {
-    renderList(filtered, createCard, grid);
+    renderList(paginate(filtered, currentPage), createCard, grid);
   }
+
+  renderPagination(paginationBox, currentPage, totalPages, goToPage);
+}
+
+function goToPage(page) {
+  currentPage = page;
+  update();
 }
 
 function handleSearch() {
   currentQuery = searchInput.value;
+  currentPage = 1;
   update();
 }
 
@@ -39,6 +51,7 @@ function setActiveFilterButton() {
 
 function handleFilterClick(event) {
   currentType = event.currentTarget.dataset.type;
+  currentPage = 1;
   setActiveFilterButton();
   update();
 }
