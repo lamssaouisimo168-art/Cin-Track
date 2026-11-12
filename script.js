@@ -2,6 +2,7 @@ import { fetchItems } from "./api.js";
 import { createCard, renderList, showError, openModal, closeModal } from "./cards.js";
 import { searchItems, filterByType } from "./filter.js";
 import { paginate, getTotalPages, renderPagination } from "./pagination.js";
+import { addFavorite } from "./favorites.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
@@ -61,6 +62,13 @@ searchBtn.addEventListener("click", handleSearch);
 filterButtons.forEach((btn) => btn.addEventListener("click", handleFilterClick));
 
 function handleGridClick(event) {
+  const heartBtn = event.target.closest(".heart-btn");
+  if (heartBtn) {
+    const item = allItems.find((i) => String(i.id) === String(heartBtn.dataset.id));
+    if (item) addFavorite(item);
+    return;
+  }
+
   const card = event.target.closest("article");
   if (!card) return;
 

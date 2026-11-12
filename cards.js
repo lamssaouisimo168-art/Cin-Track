@@ -32,6 +32,10 @@ export function createCard(item) {
         <h3 class="font-bold text-lg text-white truncate">${item.title}</h3>
         <p class="text-sm text-white/60 italic">${item.releaseYear} • ${getTypeLabel(item.type)}</p>
       </div>
+
+      <button class="heart-btn absolute top-2 right-2 z-10 bg-white rounded-full w-9 h-9 text-gray-400" data-id="${item.id}">
+        <i class="fa-solid fa-heart"></i>
+      </button>
     </article>
   `;
 }
