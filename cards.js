@@ -78,3 +78,26 @@ export function openModal(item) {
     if (e.target === overlay) closeModal();
   });
 }
+
+function createFavoriteItem(item) {
+  return `
+    <div class="flex items-center justify-between rounded-lg p-3 hover:bg-gray-100" data-id="${item.id}">
+      <span class="truncate">${item.title}</span>
+      <button class="remove-fav text-gray-500 hover:text-red-600" data-id="${item.id}">
+        <i class="fa-solid fa-x"></i>
+      </button>
+    </div>
+  `;
+}
+
+export function renderFavorites(container, favs) {
+  if (favs.length === 0) {
+    container.innerHTML = `<p class="text-gray-400 italic p-3">Aucun favori pour le moment.</p>`;
+    return;
+  }
+  container.innerHTML = favs.map(createFavoriteItem).join("");
+}
+
+export function renderFavoritesCount(container, counts) {
+  container.textContent = `${counts.movie} film(s) • ${counts.series} série(s)`;
+}

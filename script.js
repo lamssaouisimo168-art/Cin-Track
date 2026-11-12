@@ -1,8 +1,8 @@
 import { fetchItems } from "./api.js";
-import { createCard, renderList, showError, openModal, closeModal } from "./cards.js";
+import { createCard, renderList, showError, openModal, closeModal, renderFavorites, renderFavoritesCount } from "./cards.js";
 import { searchItems, filterByType } from "./filter.js";
 import { paginate, getTotalPages, renderPagination } from "./pagination.js";
-import { addFavorite } from "./favorites.js";
+import { addFavorite, removeFavorite, getFavorites, countByType } from "./favorites.js";
 
 const grid = document.getElementById("grid");
 let allItems = [];
@@ -66,6 +66,7 @@ function handleGridClick(event) {
   if (heartBtn) {
     const item = allItems.find((i) => String(i.id) === String(heartBtn.dataset.id));
     if (item) addFavorite(item);
+    refreshFavorites();
     return;
   }
 
@@ -83,6 +84,26 @@ function handleEscape(event) {
 }
 
 document.addEventListener("keydown", handleEscape);
+
+const favList = document.getElementById("favorites-list");
+const favCount = document.getElementById("favorites-count");
+
+function refreshFavorites() {
+  const favs = getFavorites();
+  renderFavorites(favList, favs);
+  renderFavoritesCount(favCount, countByType(favs));
+}
+
+function handleFavListClick(event) {
+  const removeBtn = event.target.closest(".remove-fav");
+  if (!removeBtn) return;
+  removeFavorite(removeBtn.dataset.id);
+  refreshFavorites();
+  update();
+}
+
+favList.addEventListener("click", handleFavListClick);
+refreshFavorites();
 
 async function init() {
   grid.innerHTML = `<p class="col-span-full text-center text-white/60 italic">Chargement du catalogue...</p>`;
