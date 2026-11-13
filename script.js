@@ -124,7 +124,7 @@ async function init() {
     update();
   } catch (error) {
     console.error(error);
-    showError(grid, "Impossible de charger les données. Réessayez plus tard.");
+    showError(grid, "Impossible de charger le catalogue. Vérifiez votre connexion puis réessayez.");
   }
 }
 

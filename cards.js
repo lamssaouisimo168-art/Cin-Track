@@ -11,7 +11,7 @@ export function renderList(items, createCardFn, container) {
 
 export function showError(container, message) {
   container.innerHTML = `
-    <p class="col-span-full text-center text-red-500 font-bold text-xl">${message}</p>
+    <p role="alert" class="col-span-full text-center text-red-500 font-bold text-xl">${message}</p>
   `;
 }
 
