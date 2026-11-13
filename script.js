@@ -64,9 +64,8 @@ filterButtons.forEach((btn) => btn.addEventListener("click", handleFilterClick))
 function handleGridClick(event) {
   const heartBtn = event.target.closest(".heart-btn");
   if (heartBtn) {
-    const item = allItems.find((i) => String(i.id) === String(heartBtn.dataset.id));
-    if (item) addFavorite(item);
-    refreshFavorites();
+    event.stopPropagation();
+    toggleFavorite(heartBtn.dataset.id);
     return;
   }
 
@@ -92,6 +91,18 @@ function refreshFavorites() {
   const favs = getFavorites();
   renderFavorites(favList, favs);
   renderFavoritesCount(favCount, countByType(favs));
+}
+
+function toggleFavorite(id) {
+  const alreadyFav = getFavorites().some((fav) => String(fav.id) === String(id));
+  if (alreadyFav) {
+    removeFavorite(id);
+  } else {
+    const item = allItems.find((i) => String(i.id) === String(id));
+    if (item) addFavorite(item);
+  }
+  refreshFavorites();
+  update();
 }
 
 function handleFavListClick(event) {

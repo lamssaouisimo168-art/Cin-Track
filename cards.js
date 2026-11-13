@@ -1,3 +1,5 @@
+import { isFavorite } from "./favorites.js";
+
 function getTypeLabel(type) {
   return type === "movie" ? "Film" : "Série";
 }
@@ -22,6 +24,7 @@ function getDetailsLine(item) {
 
 export function createCard(item) {
   const typeColor = item.type === "movie" ? "bg-orange-500" : "bg-sky-500";
+  const favColor = isFavorite(item.id) ? "text-red-600" : "text-gray-400";
 
   return `
     <article class="group relative bg-[#1a2347] rounded-2xl shadow-lg overflow-hidden cursor-pointer transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/20" data-id="${item.id}">
@@ -33,7 +36,7 @@ export function createCard(item) {
         <p class="text-sm text-white/60 italic">${item.releaseYear} • ${getTypeLabel(item.type)}</p>
       </div>
 
-      <button class="heart-btn absolute top-2 right-2 z-10 bg-white rounded-full w-9 h-9 text-gray-400" data-id="${item.id}">
+      <button class="heart-btn absolute top-2 right-2 z-10 bg-white rounded-full w-9 h-9 ${favColor}" data-id="${item.id}">
         <i class="fa-solid fa-heart"></i>
       </button>
     </article>
